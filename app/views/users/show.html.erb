@@ -8,4 +8,21 @@
       </h1>
     </section>
   </aside>
+  <div class="span8">
+    <% if @user.sites.any? %>
+      <h3>Sites (<%= @user.sites.count %>)</h3>
+      <ol class="sites">
+        <%= render @user.sites %>
+      </ol>
+      <% if @user.sites.count == 1 %>
+      <%= gmaps({
+       "map_options" => {"auto_zoom" => false, "zoom" => 15, "center_latitude" => @user.sites.first.latitude, "center_longitude" => @user.sites.first.longitude },
+       "markers"     => {"data" => @json }
+      })%>
+      <% else %>
+      <%= gmaps4rails(@json) %>
+      <% end %>
+    <% end %>
+  </div>
+  <%= yield :scripts %>
 </div>

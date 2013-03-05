@@ -1,0 +1,46 @@
+<% provide(:title, @site.name) %>
+<div class="row">
+  <aside class="span4">
+    <section>
+      <h1>
+        <%= @site.name %>
+        <%= @site.address %>
+      </h1>
+      <h2>Import Jars</h2>
+
+        <%= form_tag import_jars_path, multipart: true do %>
+          <%= file_field_tag :file %>
+          <%= hidden_field_tag 'siteId', @site.id %>
+          <%= submit_tag "Import", class: "btn btn-large btn-primary" %>
+        <% end %>
+    </section>
+  </aside>
+
+  <div class="span8">      
+      <%= gmaps({
+       "map_options" => {"auto_zoom" => false, "zoom" => 15, "center_latitude" => @site.latitude, "center_longitude" => @site.longitude },
+       "markers"     => {"data" => @json }
+      })
+%>
+  </div>
+
+  <div class="span12" id="jars_chart" style="width: 900px; height: 300px;"></div>
+
+  <%= yield :scripts %>
+</div>
+
+<script type="text/javascript" charset="utf-8">
+  $(function () {
+  new Highcharts.Chart({
+    chart: { renderTo: 'jars_chart' },
+    title: { text: 'Jars' },
+    xAxis: { },
+    yAxis: {
+      title: { text: 'Jar Percentage'}
+    },
+    series: [{
+      data: <%= (@site.jars).map { |jar| jar.jarPctRev.to_f}.inspect %>
+    }]
+  });
+});
+</script>
