@@ -17,12 +17,8 @@ class JarsController < ApplicationController
 	  site = Site.find_by_id(siteId)
 	  spreadsheet = open_spreadsheet(file)
 	  spreadsheet.default_sheet = spreadsheet.sheets[2]
-	  #Rails.logger.debug("******************************debug::info=" + spreadsheet.info)
-	  Rails.logger.debug("******************************debug::cell=" + spreadsheet.cell(1,1))
 	  header = spreadsheet.row(1)
-	  Rails.logger.debug("******************************debug::header=" + header.join(","))
 	  nbJar = (137 - 41 )/ 8 
-	  Rails.logger.debug("******************************debug::nbJar=" + nbJar.to_s())		  
 	  curRow = 42
 	  
 	  nbJar.times do
@@ -30,9 +26,7 @@ class JarsController < ApplicationController
 		  (curRow..curRow+7).each do |i|
 		    #row = Hash[[header, spreadsheet.row(i)].transpose]
 		    #attName = row["attName"]
-		    Rails.logger.debug("******************************debug::curRow=" + curRow.to_s())
 		    attName = spreadsheet.cell(curRow,1)
-		   	Rails.logger.debug("******************************debug::attName=" + attName.to_s())		  
 
 		    if (attName.eql? "Jar Index")
 		    	jarIndex = spreadsheet.cell(curRow,3)	    	

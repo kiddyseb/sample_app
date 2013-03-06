@@ -7,6 +7,9 @@
         <%= @user.name %>
       </h1>
     </section>
+    <section>
+        <%= render 'sites/site_form' %>
+    </section>
   </aside>
   <div class="span8">
     <% if @user.sites.any? %>

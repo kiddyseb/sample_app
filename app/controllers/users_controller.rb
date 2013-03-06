@@ -8,6 +8,7 @@ class UsersController < ApplicationController
   end
 
   def show
+    @site = current_user.sites.build if signed_in?
     @user = User.find(params[:id])
     @microposts = @user.microposts.paginate(page: params[:page])
     @json = @user.sites.to_gmaps4rails
